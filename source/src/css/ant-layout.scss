@@ -1,0 +1,35 @@
+.ant-layout {
+  height: 100%;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+
+  .ant-layout-wrapper {
+    padding: 0 50px;
+    flex: 1;
+  }
+
+  .ant-layout-header {
+    height: 64px;
+  }
+
+  .ant-layout-breadcrumb {
+    margin: 7px 0 -17px 24px;
+  }
+
+  .ant-layout-container {
+    background: #fff;
+    margin: 24px 0 0;
+    position: relative;
+    padding-top: 24px;
+    overflow: hidden;
+  }
+
+  .ant-layout-footer {
+    height: 64px;
+    line-height: 64px;
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+  }
+}
