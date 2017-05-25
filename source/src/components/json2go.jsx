@@ -1,14 +1,16 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import jsonToGo from '../js/json-to-go';
-import {Menu, Input, Row, Col, Switch} from 'antd';
+import { Layout, Menu, Breadcrumb, Input, Row, Col, Switch } from 'antd';
+const {Header, Content, Footer} = Layout;
 
-class JsonToStruct extends Component {
+
+class JSON2Go extends Component {
     constructor(props) {
         super(props);
         this.state = {
             json: '',
-            struct: '',
-            hasDb: true
+            go: '',
+            hasDB: true
         }
     }
 
@@ -24,31 +26,35 @@ class JsonToStruct extends Component {
 
     changeStruct() {
         this.setState((preState) => {
-            let struct;
-            struct = jsonToGo(preState.json, "goStruct", {hasDb: this.state.hasDb}).go;
-            return {struct};
+            let go = jsonToGo(preState.json, "Go", {hasDB: this.state.hasDB}).go;
+            return {go};
         });
     }
 
     changeHasDb() {
         this.setState(() => {
-            return {hasDb: !this.state.hasDb};
+            return {hasDB: !this.state.hasDB};
         }, this.changeStruct);
     }
 
     render() {
         return (
-            <div className="ant-layout">
-                <div className="ant-layout-header">
-                    <div className="ant-layout-wrapper">
-                        <Menu mode="horizontal"
-                              defaultSelectedKeys={['1']} style={{lineHeight: '64px'}}>
-                            <Menu.Item key="1">jsonToStruct</Menu.Item>
-                        </Menu>
-                    </div>
-                </div>
-                <div className="ant-layout-wrapper">
-                    <div className="ant-layout-container">
+            <Layout className="layout">
+                <Header>
+                    <Menu
+                        theme="dark"
+                        mode="horizontal"
+                        defaultSelectedKeys={['1']}
+                        style={{ lineHeight: '64px' }}
+                    >
+                        <Menu.Item key="1">JSON to Go</Menu.Item>
+                    </Menu>
+                </Header>
+                <Content style={{ padding: '0 50px' }}>
+                    <Breadcrumb style={{ margin: '12px 0' }}>
+                        <Breadcrumb.Item>Home</Breadcrumb.Item>
+                    </Breadcrumb>
+                    <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
                         <Row>
                             <Col span={20} push={2}>
                                 <Row gutter={16}>
@@ -57,26 +63,26 @@ class JsonToStruct extends Component {
                                                onKeyUp={this.changeJson.bind(this)}/>
                                     </Col>
                                     <Col span={12}>
-                                        <Input type="textarea" placeholder="struct" rows={16}
-                                               value={this.state.struct}/>
+                                        <Input type="textarea" placeholder="go" rows={16}
+                                               value={this.state.go}/>
                                     </Col>
                                 </Row>
                                 <br/>
                                 <Row>
                                     <Col><Switch checkedChildren={'有db'} unCheckedChildren={'无db'}
-                                                 defaultChecked={this.state.hasDb}
+                                                 defaultChecked={this.state.hasDB}
                                                  onChange={this.changeHasDb.bind(this)}/></Col>
                                 </Row>
                             </Col>
                         </Row>
                     </div>
-                </div>
-                <div className="ant-layout-footer">
-                    chromeApp jsonToStruct 测试版 © 2016 LJun
-                </div>
-            </div>
+                </Content>
+                <Footer style={{ textAlign: 'center' }}>
+                    chromeAPP JSONToGo 测试版 © 2016 LJun
+                </Footer>
+            </Layout>
         );
     }
 }
 
-export default JsonToStruct;
+export default JSON2Go;

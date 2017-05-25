@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import JsonToStruct from './components/json2go';
-import './css/index.css';
+import JSONToGo from './components/json2go';
 import 'antd/dist/antd.css';
 import './css/ant-layout.scss'
 
 
 ReactDOM.render(
-  <JsonToStruct />,
+  <JSONToGo />,
   document.getElementById('root')
 );

@@ -11,3 +11,6 @@ coverage
 .env
 npm-debug.log
 .idea
+build/static
+build/asset-manifest.json
+build/index.html

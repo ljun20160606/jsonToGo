@@ -31,7 +31,7 @@ var compiler;
 var handleCompile;
 
 // You can safely remove this after ejecting.
-// We only use this block for testing of Create React JsonToStruct itself:
+// We only use this block for testing of Create React JSON2Go itself:
 var isSmokeTest = process.argv.some(arg => arg.indexOf('--smoke-test') > -1);
 if (isSmokeTest) {
   handleCompile = function (err, stats) {
