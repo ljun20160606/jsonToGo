@@ -1,17 +1,17 @@
 {
   "manifest_version": 2,
-  "name" : "json to golang",
-  "short_name": "json2go",
-  "version" : "0.14",
+  "name" : "js to golang",
+  "short_name": "js2go",
+  "version" : "0.15",
 
-  "description" : "convert json to golang struct",
+  "description" : "convert json or yaml to golang struct",
   "author": "LJun",
   "background": {
     "scripts": ["background.js"]
   },
   
   "browser_action": {
-     "default_title": "json2go",
+     "default_title": "js2go",
      "default_icon": "go.png"
   }
 }

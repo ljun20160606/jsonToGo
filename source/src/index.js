@@ -1,11 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import JSONToGo from './components/json2go';
-import 'antd/dist/antd.css';
-import './css/ant-layout.scss'
+import dva from 'dva';
+import './index.css';
 
+// 1. Initialize
+const app = dva();
 
-ReactDOM.render(
-  <JSONToGo />,
-  document.getElementById('root')
-);
+// 2. Plugins
+// app.use({});
+
+// 3. Model
+// app.model(require('./models/example').default);
+app.model(require('./models/jsonMapping').default);
+app.model(require('./models/yamlMapping').default);
+
+// 4. Router
+app.router(require('./router').default);
+
+// 5. Start
+app.start('#root');
