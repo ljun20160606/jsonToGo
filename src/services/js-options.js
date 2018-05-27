@@ -1,3 +1,27 @@
+const ALL = {
+  label: 'all annotations',
+  value: 'all',
+  key: 'all',
+};
+
+const JSON = {
+  label: 'json',
+  value: 'json',
+  key: 'json',
+};
+
+const DB = {
+  label: 'db',
+  value: 'db',
+  key: 'db',
+};
+
+const YAML = {
+  label: 'yaml',
+  value: 'yaml',
+  key: 'yaml',
+};
+
 class Options {
   static data = {
     json: {
@@ -23,4 +47,4 @@ class Options {
   }
 }
 
-export default Options;
+export { ALL, JSON, DB, YAML, Options };
