@@ -1,5 +1,6 @@
 import React from 'react';
-import { Row, Col, TreeSelect } from 'antd';
+import { Row, Col, TreeSelect, Button, notification } from 'antd';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Controlled } from 'react-codemirror2';
 import 'codemirror/lib/codemirror.css';
 
@@ -13,6 +14,13 @@ const Mapping = ({onInput, onSelect, dataSource, searchPlaceholder, leftMode, ri
     style: {
       width: 300,
     },
+  };
+
+  const openNotification = () => {
+    notification.open({
+      message: 'Copied',
+      description: '',
+    });
   };
   return (
     <Row>
@@ -48,6 +56,11 @@ const Mapping = ({onInput, onSelect, dataSource, searchPlaceholder, leftMode, ri
           </Col>
         </Row>
         <br/>
+        <Row>
+          <CopyToClipboard text={dataSource.show} onCopy={openNotification}>
+            <Button size={"large"}>Copy</Button>
+          </CopyToClipboard>
+        </Row>
       </Col>
     </Row>
   );

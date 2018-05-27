@@ -64,6 +64,7 @@ class Index extends React.Component {
             items
               .filter(value => match.path === `/${value}`)
               .map(name => <Mapping key={name}
+                                    searchPlaceholder={'Select Annotations'}
                                     onInput={onInput(name).bind(this)}
                                     onSelect={onSelect(name).bind(this)}
                                     dataSource={props[name + 'Mapping']}
