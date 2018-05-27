@@ -1,5 +1,5 @@
 chrome.browserAction.onClicked.addListener(
     function() {
-        window.open("./build/index.html");
+        window.open("./dist/index.html");
     }
 );

@@ -4,13 +4,17 @@ import { Layout, Menu, Breadcrumb } from 'antd';
 import Mapping from '../components/Mapping';
 import './Index.css';
 
+import 'codemirror/theme/idea.css';
+import 'codemirror/mode/yaml/yaml';
+import 'codemirror/mode/javascript/javascript';
+import 'codemirror/mode/go/go';
+
 const {Header, Content, Footer} = Layout;
 
 class Index extends React.Component {
 
   onInput(name) {
-    return function (e) {
-      let input = e.target.value;
+    return function (input) {
       this.props.dispatch({
         type: `${name}Mapping/input`,
         payload: {input},
@@ -41,7 +45,7 @@ class Index extends React.Component {
         <Menu
           theme="dark"
           mode="horizontal"
-          defaultSelectedKeys={['json']}
+          defaultSelectedKeys={[match.path.replace('/', '')]}
           style={{lineHeight: '64px'}}
           onSelect={this.menuHandler.bind(this)}
         >
@@ -63,8 +67,10 @@ class Index extends React.Component {
                                     onInput={onInput(name).bind(this)}
                                     onSelect={onSelect(name).bind(this)}
                                     dataSource={props[name + 'Mapping']}
-                                    leftPlaceHolder={name}
-                                    rightPlaceHolder={'go'}/>)
+                                    leftMode={name === 'json' ? 'javascript' : name}
+                                    rightMode={'go'}
+                                    theme={'idea'}
+              />)
           }
         </div>
       </Content>
