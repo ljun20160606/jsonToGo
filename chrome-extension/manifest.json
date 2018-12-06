@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "js to golang",
   "short_name": "js2go",
-  "version": "0.17.1",
+  "version": "0.17.2",
   "description": "convert json or yaml to golang struct",
   "author": "LJun",
   "background": {
@@ -17,6 +17,7 @@
   "icons": {
     "16": "go-16.png",
     "32": "go-32.png",
+    "48": "go-48.png",
     "128": "go-128.png"
   }
 }
