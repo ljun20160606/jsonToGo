@@ -1,5 +1,5 @@
 import yamlToGo from '../services/yaml-to-go'
-import { ALL, YAML, DB, Options } from '../services/js-options'
+import {ALL, YAML, DB, Options, Config, Nested} from '../services/js-options'
 
 export default {
   namespace: 'yamlMapping',
@@ -8,6 +8,9 @@ export default {
     treeData: [{
       ...ALL,
       children: [YAML, DB],
+    }, {
+      ...Config,
+      children: [Nested],
     }],
     select: ['all'],
     input: '',

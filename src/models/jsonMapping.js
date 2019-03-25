@@ -1,5 +1,5 @@
 import jsonToGo from '../services/json-to-go'
-import { ALL, JSON, DB, Options } from '../services/js-options'
+import {ALL, JSON, DB, Options, Config, Nested} from '../services/js-options'
 
 export default {
   namespace: 'jsonMapping',
@@ -8,6 +8,9 @@ export default {
     treeData: [{
       ...ALL,
       children: [JSON, DB],
+    }, {
+      ...Config,
+      children: [Nested],
     }],
     select: ['all'],
     input: '',

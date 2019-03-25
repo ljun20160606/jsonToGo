@@ -1,25 +1,37 @@
 const ALL = {
-  label: 'all annotations',
+  title: 'all annotations',
   value: 'all',
   key: 'all',
 };
 
 const JSON = {
-  label: 'json',
+  title: 'json',
   value: 'json',
   key: 'json',
 };
 
 const DB = {
-  label: 'db',
+  title: 'db',
   value: 'db',
   key: 'db',
 };
 
 const YAML = {
-  label: 'yaml',
+  title: 'yaml',
   value: 'yaml',
   key: 'yaml',
+};
+
+const Config = {
+  title: 'config',
+  value: 'config',
+  key: 'config',
+};
+
+const Nested = {
+  title: 'nested',
+  value: 'nested',
+  key: 'nested',
 };
 
 class Options {
@@ -36,15 +48,20 @@ class Options {
     }
   };
 
-  static getOptions(names) {
-    let tags = names.filter(value => Options.data[value]).map(value => Options.data[value]);
-    return {tags};
+  static getTags(names) {
+    return names.filter(value => Options.data[value]).map(value => Options.data[value]);
   }
 
   static getOption(list, select) {
-    return Options.getOptions(select && select[0] === 'all' ?
+    let tags = Options.getTags(select && select[0] === 'all' ?
       list.map(value => value.key) : select);
+    let newVar = {
+      tags,
+      nested: (select.includes('nested'))
+    };
+    console.log(newVar);
+    return newVar;
   }
 }
 
-export { ALL, JSON, DB, YAML, Options };
+export {ALL, JSON, DB, YAML, Options, Config, Nested};
