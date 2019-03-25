@@ -1,8 +1,12 @@
 import React from 'react';
-import { Row, Col, TreeSelect, Button, notification } from 'antd';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Controlled } from 'react-codemirror2';
-import 'codemirror/lib/codemirror.css';
+import {Row, Col, TreeSelect, Button, notification} from 'antd';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
+import AceEditor from 'react-ace';
+
+import 'brace/mode/golang';
+import 'brace/mode/yaml';
+import 'brace/mode/json';
+import 'brace/theme/textmate';
 
 const Mapping = ({onInput, onSelect, dataSource, searchPlaceholder, leftMode, rightMode, theme}) => {
   const tProps = {
@@ -31,28 +35,37 @@ const Mapping = ({onInput, onSelect, dataSource, searchPlaceholder, leftMode, ri
         <br/>
         <Row gutterd={16}>
           <Col span={12}>
-            <Controlled
+            <AceEditor
+              useSoftTabs={true}
+              tabSize={2}
+              fontSize={14}
+              highlightActiveLine={false}
+              mode={leftMode}
+              theme="textmate"
               value={dataSource.input}
-              options={{
-                mode: leftMode,
-                theme: theme || 'material',
-                lineNumbers: true
-              }}
-              onBeforeChange={(editor, data, value) => {
+              onChange={(value) => {
                 onInput(value);
               }}
+              name="UNIQUE_ID_OF_DIV"
+              editorProps={{$blockScrolling: true}}
+              enableBasicAutocompletion={true}
+              enableLiveAutocompletion={true}
             />
           </Col>
           <Col span={12}>
-            <Controlled
+            <AceEditor
+              useSoftTabs={true}
+              fontSize={14}
+              readOnly={true}
+              highlightActiveLine={false}
+              mode={rightMode}
+              theme="textmate"
               value={dataSource.show}
-              options={{
-                mode: rightMode,
-                theme: theme || 'material',
-                lineNumbers: true
+              onChange={(value) => {
               }}
-              onBeforeChange={(editor, data, value) => {
-              }}/>
+              name="UNIQUE_ID_OF_DIV"
+              editorProps={{$blockScrolling: true}}
+            />
           </Col>
         </Row>
         <br/>

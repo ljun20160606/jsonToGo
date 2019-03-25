@@ -9,11 +9,10 @@
   "dependencies": {
     "antd": "^3.5.3",
     "babel-plugin-import": "^1.7.0",
-    "codemirror": "^5.38.0",
     "dva": "^2.2.3",
     "js-yaml": "^3.11.0",
     "react": "^16.2.0",
-    "react-codemirror2": "^5.0.4",
+    "react-ace": "^6.4.0",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.2.0"
   },

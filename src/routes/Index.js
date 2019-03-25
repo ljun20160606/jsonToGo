@@ -4,11 +4,6 @@ import { Layout, Menu, Breadcrumb } from 'antd';
 import Mapping from '../components/Mapping';
 import './Index.css';
 
-import 'codemirror/theme/idea.css';
-import 'codemirror/mode/yaml/yaml';
-import 'codemirror/mode/javascript/javascript';
-import 'codemirror/mode/go/go';
-
 const {Header, Content, Footer} = Layout;
 
 class Index extends React.Component {
@@ -69,8 +64,7 @@ class Index extends React.Component {
                                     onSelect={onSelect(name).bind(this)}
                                     dataSource={props[name + 'Mapping']}
                                     leftMode={name === 'json' ? 'javascript' : name}
-                                    rightMode={'go'}
-                                    theme={'idea'}
+                                    rightMode={'golang'}
               />)
           }
         </div>
