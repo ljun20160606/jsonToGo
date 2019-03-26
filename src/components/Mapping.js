@@ -47,7 +47,7 @@ const Mapping = ({onInput, onSelect, dataSource, searchPlaceholder, leftMode, ri
               onChange={(value) => {
                 onInput(value);
               }}
-              name="UNIQUE_ID_OF_DIV"
+              name="input"
               editorProps={{$blockScrolling: true}}
               enableBasicAutocompletion={true}
               enableLiveAutocompletion={true}
@@ -64,7 +64,7 @@ const Mapping = ({onInput, onSelect, dataSource, searchPlaceholder, leftMode, ri
               value={dataSource.show}
               onChange={(value) => {
               }}
-              name="UNIQUE_ID_OF_DIV"
+              name="output"
               editorProps={{$blockScrolling: true}}
             />
           </Col>
