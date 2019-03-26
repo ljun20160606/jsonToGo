@@ -12,7 +12,7 @@ export default {
       ...Config,
       children: [Nested],
     }],
-    select: ['all'],
+    select: [YAML.key],
     input: '',
     show: '',
     name: 'yaml',

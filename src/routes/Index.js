@@ -63,7 +63,7 @@ class Index extends React.Component {
                                     onInput={onInput(name).bind(this)}
                                     onSelect={onSelect(name).bind(this)}
                                     dataSource={props[name + 'Mapping']}
-                                    leftMode={name === 'json' ? 'javascript' : name}
+                                    leftMode={name}
                                     rightMode={'golang'}
               />)
           }

@@ -7,8 +7,9 @@ import 'brace/mode/golang';
 import 'brace/mode/yaml';
 import 'brace/mode/json';
 import 'brace/theme/textmate';
+import 'brace/ext/searchbox';
 
-const Mapping = ({onInput, onSelect, dataSource, searchPlaceholder, leftMode, rightMode, theme}) => {
+const Mapping = ({onInput, onSelect, dataSource, searchPlaceholder, leftMode, rightMode}) => {
   const tProps = {
     treeData: dataSource.treeData,
     value: dataSource.select,

@@ -12,7 +12,7 @@ export default {
       ...Config,
       children: [Nested],
     }],
-    select: ['all'],
+    select: [JSON.key],
     input: '',
     show: '',
     name: 'json',
