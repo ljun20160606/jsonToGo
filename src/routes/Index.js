@@ -1,6 +1,6 @@
 import React from 'react';
-import { connect } from "dva/index";
-import { Layout, Menu, Breadcrumb } from 'antd';
+import {connect} from "dva/index";
+import {Layout, Menu, Breadcrumb, Icon} from 'antd';
 import Mapping from '../components/Mapping';
 import './Index.css';
 
@@ -70,7 +70,7 @@ class Index extends React.Component {
         </div>
       </Content>
       <Footer style={{textAlign: 'center'}}>
-        To Go ©2018 Created by ljun20160606
+        To Go ©2018 Created by <a href={'https://github.com/ljun20160606/jsonToGo'}><Icon type="github"/> ljun20160606</a>
       </Footer>
     </Layout>);
   }

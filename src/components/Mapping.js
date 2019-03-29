@@ -37,6 +37,7 @@ const Mapping = ({onInput, onSelect, dataSource, searchPlaceholder, leftMode, ri
         <Row gutterd={16}>
           <Col span={12}>
             <AceEditor
+              height={420}
               useSoftTabs={true}
               tabSize={2}
               fontSize={14}
@@ -55,6 +56,7 @@ const Mapping = ({onInput, onSelect, dataSource, searchPlaceholder, leftMode, ri
           </Col>
           <Col span={12}>
             <AceEditor
+              height={420}
               useSoftTabs={true}
               fontSize={14}
               readOnly={true}
@@ -72,7 +74,7 @@ const Mapping = ({onInput, onSelect, dataSource, searchPlaceholder, leftMode, ri
         <br/>
         <Row>
           <CopyToClipboard text={dataSource.show} onCopy={openNotification}>
-            <Button size={"large"}>Copy</Button>
+            <Button size={"large"} htmlType={'button'}>Copy</Button>
           </CopyToClipboard>
         </Row>
       </Col>
