@@ -10,7 +10,7 @@
     "antd": "^3.5.3",
     "babel-plugin-import": "^1.7.0",
     "dva": "^2.2.3",
-    "js-yaml": "^3.11.0",
+    "js-yaml": "^3.13.1",
     "react": "^16.2.0",
     "react-ace": "^6.4.0",
     "react-copy-to-clipboard": "^5.0.1",
