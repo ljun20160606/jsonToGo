@@ -1,13 +1,8 @@
-const
-  GoInt = 'int',
-  GoInt64 = 'int64',
-  GoFloat64 = 'float64',
-  GoSlice = 'slice',
-  GoStruct = 'struct',
-  GoString = 'string',
-  GoBool = 'bool',
-  GoTime = 'time.Time',
-  GoInterface = 'interface{}';
+import {
+  buildin,
+  jsonOption,
+  format,
+} from "./golang";
 
 function jsToGo(scope, typename, options) {
   let typeMap = {};
@@ -42,10 +37,10 @@ function jsToGo(scope, typename, options) {
     function parseScope(scope, depth = 0) {
       let type = goType(scope);
       switch (type) {
-        case GoSlice:
+        case buildin.slice:
           parseSlice(scope, depth);
           break;
-        case GoStruct:
+        case buildin.struct:
           parseStruct(scope, undefined, depth + 1);
           break;
         default:
@@ -71,7 +66,7 @@ function jsToGo(scope, typename, options) {
       let sliceType = goSliceType(array);
 
       switch (sliceType) {
-        case GoStruct:
+        case buildin.struct:
           let StructFields = {};
           for (let ele of array) {
             let keys = Object.keys(ele);
@@ -105,7 +100,7 @@ function jsToGo(scope, typename, options) {
 
           parseStruct(struct, omitempty, depth + 1);
           break;
-        case GoSlice:
+        case buildin.slice:
           let flatten = [];
           for (let slice of array) {
             flatten = flatten.concat(slice);
@@ -113,7 +108,7 @@ function jsToGo(scope, typename, options) {
           parseSlice(flatten, depth);
           return;
         default:
-          append(sliceType || GoInterface);
+          append(sliceType || buildin.interface);
       }
     }
 
@@ -132,6 +127,7 @@ function jsToGo(scope, typename, options) {
       for (let i in keys) {
         if (keys.hasOwnProperty(i)) {
           let keyName = keys[i];
+          console.log(keyName)
           indent(tabs);
           append(format(keyName) + ' ');
           parentKey = keyName;
@@ -156,7 +152,7 @@ function jsToGo(scope, typename, options) {
       for (let tag of tags) {
         tagResult += `${tag.key}:"${tag.isSnake ? camelToSnake(keyName) : keyName}`;
         if (omitempty && omitempty[keyName] === true) {
-          tagResult += (',omitempty');
+          tagResult += (',' + jsonOption.omitempty);
         }
         tagResult += '" '
       }
@@ -177,31 +173,31 @@ function jsToGo(scope, typename, options) {
 
 function goType(val) {
   if (val === null) {
-    return GoInterface;
+    return buildin.interface;
   } else if (Array.isArray(val)) {
-    return GoSlice;
+    return buildin.slice;
   }
 
   switch (typeof val) {
     case 'string':
       if (/\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?(\+\d\d:\d\d|Z)/.test(val))
-        return GoTime;
+        return buildin.time;
       else
-        return GoString;
+        return buildin.string;
     case 'number':
       if (val % 1 === 0) {
         if (val > -2147483648 && val < 2147483647)
-          return GoInt;
+          return buildin.int;
         else
-          return GoInt64;
+          return buildin.int64;
       } else
-        return GoFloat64;
+        return buildin.float64;
     case 'boolean':
-      return GoBool;
+      return buildin.bool;
     case 'object':
-      return GoStruct;
+      return buildin.struct;
     default:
-      return GoInterface;
+      return buildin.interface;
   }
 }
 
@@ -213,63 +209,11 @@ function goSliceType(array) {
       sliceType = thisType;
     else if (sliceType !== thisType) {
       sliceType = mostSpecificPossibleGoType(thisType, sliceType);
-      if (sliceType === GoInterface)
+      if (sliceType === buildin.interface)
         break;
     }
   }
   return sliceType
-}
-
-// Sanitizes and formats a string to make an appropriate identifier in Go
-function format(str) {
-  if (!str)
-    return '';
-  else if (str.match(/^\d+$/))
-    str = 'Num' + str;
-  else if (str.charAt(0).match(/\d/)) {
-    let numbers = {
-      '0': 'Zero_', '1': 'One_', '2': 'Two_', '3': 'Three_',
-      '4': 'Four_', '5': 'Five_', '6': 'Six_', '7': 'Seven_',
-      '8': 'Eight_', '9': 'Nine_'
-    };
-    str = numbers[str.charAt(0)] + str.substr(1);
-  }
-  return toProperCase(str).replace(/[^a-z0-9]/ig, '') || 'NAMING_FAILED';
-}
-
-// Given two types, returns the more specific of the two
-function mostSpecificPossibleGoType(typ1, typ2) {
-  if (typ1.substr(0, 5) === 'float'
-    && typ2.substr(0, 3) === 'int')
-    return typ1;
-  else if (typ1.substr(0, 3) === 'int'
-    && typ2.substr(0, 5) === 'float')
-    return typ2;
-  else
-    return GoInterface;
-}
-
-// Proper cases a string according to Go conventions
-function toProperCase(str) {
-  // https://github.com/golang/lint/blob/5614ed5bae6fb75893070bdc0996a68765fdd275/lint.go#L771-L810
-  const commonInitialisms = [
-    "ACL", "API", "ASCII", "CPU", "CSS", "DNS", "EOF", "GUID", "HTML", "HTTP",
-    "HTTPS", "ID", "IP", "JSON", "LHS", "QPS", "RAM", "RHS", "RPC", "SLA",
-    "SMTP", "SQL", "SSH", "TCP", "TLS", "TTL", "UDP", "UI", "UID", "UUID",
-    "URI", "URL", "UTF8", "VM", "XML", "XMPP", "XSRF", "XSS"
-  ];
-
-  return str.replace(/(^|[^a-zA-Z])([a-z]+)/g, function (unused, sep, frag) {
-    if (commonInitialisms.indexOf(frag.toUpperCase()) >= 0)
-      return sep + frag.toUpperCase();
-    else
-      return sep + frag[0].toUpperCase() + frag.substr(1).toLowerCase();
-  }).replace(/([A-Z])([a-z]+)/g, function (unused, sep, frag) {
-    if (commonInitialisms.indexOf(sep + frag.toUpperCase()) >= 0)
-      return (sep + frag).toUpperCase();
-    else
-      return sep + frag;
-  });
 }
 
 function camelToSnake(str) {
@@ -292,6 +236,18 @@ function camelToSnake(str) {
     }
   }
   return strings.join('_');
+}
+
+// Given two types, returns the more specific of the two
+function mostSpecificPossibleGoType(typ1, typ2) {
+  if (typ1.substr(0, 5) === 'float'
+    && typ2.substr(0, 3) === 'int')
+    return typ1;
+  else if (typ1.substr(0, 3) === 'int'
+    && typ2.substr(0, 5) === 'float')
+    return typ2;
+  else
+    return buildin.interface;
 }
 
 export default jsToGo;

@@ -33,7 +33,7 @@ class Index extends React.Component {
   render() {
     const {onInput, onSelect, props} = this;
     const {match} = props;
-    const items = ['json', 'yaml'];
+    const items = ['json', 'yaml', 'mysql'];
     return (<Layout className="layout" style={{minHeight: '100vh'}}>
       <Header>
         <div className="logo"/>
@@ -78,6 +78,6 @@ class Index extends React.Component {
 
 Index.propTypes = {};
 
-export default connect(({jsonMapping, yamlMapping}) => ({
-  jsonMapping, yamlMapping
+export default connect(({jsonMapping, mysqlMapping, yamlMapping}) => ({
+  jsonMapping, mysqlMapping, yamlMapping
 }))(Index);

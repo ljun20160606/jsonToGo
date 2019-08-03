@@ -55,12 +55,10 @@ class Options {
   static getOption(list, select) {
     let tags = Options.getTags(select && select[0] === 'all' ?
       list.map(value => value.key) : select);
-    let newVar = {
+    return {
       tags,
       nested: (select.includes('nested'))
     };
-    console.log(newVar);
-    return newVar;
   }
 }
 

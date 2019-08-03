@@ -10,6 +10,7 @@ const app = dva();
 // 3. Model
 // app.model(require('./models/example').default);
 app.model(require('./models/jsonMapping').default);
+app.model(require('./models/mysqlMapping').default);
 app.model(require('./models/yamlMapping').default);
 
 // 4. Router

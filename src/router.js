@@ -11,6 +11,7 @@ function RouterConfig({history}) {
         </Route>
         <Route path="/json" exact component={Index}/>
         <Route path="/yaml" exact component={Index}/>
+        <Route path="/mysql" exact component={Index}/>
       </Switch>
     </Router>
   );

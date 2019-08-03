@@ -6,8 +6,10 @@ import AceEditor from 'react-ace';
 import 'brace/mode/golang';
 import 'brace/mode/yaml';
 import 'brace/mode/json';
+import 'brace/mode/mysql';
 import 'brace/theme/textmate';
 import 'brace/ext/searchbox';
+import 'brace/ext/language_tools'
 
 const Mapping = ({onInput, onSelect, dataSource, searchPlaceholder, leftMode, rightMode}) => {
   const tProps = {
@@ -37,7 +39,7 @@ const Mapping = ({onInput, onSelect, dataSource, searchPlaceholder, leftMode, ri
         <Row gutterd={16}>
           <Col span={12}>
             <AceEditor
-              height={420}
+              height={'420px'}
               useSoftTabs={true}
               tabSize={2}
               fontSize={14}
@@ -56,7 +58,7 @@ const Mapping = ({onInput, onSelect, dataSource, searchPlaceholder, leftMode, ri
           </Col>
           <Col span={12}>
             <AceEditor
-              height={420}
+              height={'420px'}
               useSoftTabs={true}
               fontSize={14}
               readOnly={true}
