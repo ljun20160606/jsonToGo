@@ -1,32 +1,43 @@
 {
   "private": true,
   "scripts": {
-    "start": "roadhog server",
-    "build": "roadhog build",
-    "lint": "eslint --ext .js src test",
-    "precommit": "npm run lint"
+    "start": "umi dev",
+    "build": "umi build",
+    "test": "umi test",
+    "lint": "eslint --ext .js src mock tests",
+    "precommit": "lint-staged"
   },
   "dependencies": {
-    "antd": "^3.5.3",
-    "babel-plugin-import": "^1.7.0",
-    "dva": "^2.2.3",
-    "js-yaml": "^3.11.0",
-    "react": "^16.2.0",
-    "react-ace": "^6.4.0",
+    "antd": "^3.19.5",
+    "dva": "^2.6.0-beta.6",
+    "js-yaml": "^3.13.1",
+    "react": "^16.8.6",
+    "react-ace": "^7.0.2",
     "react-copy-to-clipboard": "^5.0.1",
-    "react-dom": "^16.2.0",
+    "react-dom": "^16.8.6",
     "sql-ddl-to-json-schema": "^3.1.2"
   },
   "devDependencies": {
-    "babel-plugin-dva-hmr": "^0.3.2",
-    "eslint": "^4.14.0",
-    "eslint-config-umi": "^0.1.1",
-    "eslint-plugin-flowtype": "^2.34.1",
-    "eslint-plugin-import": "^2.6.0",
+    "babel-eslint": "^9.0.0",
+    "eslint": "^5.4.0",
+    "eslint-config-umi": "^1.4.0",
+    "eslint-plugin-flowtype": "^2.50.0",
+    "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
-    "eslint-plugin-react": "^7.1.0",
-    "husky": "^0.12.0",
-    "redbox-react": "^1.4.3",
-    "roadhog": "^2.0.0"
+    "eslint-plugin-react": "^7.11.1",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.2.2",
+    "react-test-renderer": "^16.7.0",
+    "umi": "^2.7.7",
+    "umi-plugin-react": "^1.8.4"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "engines": {
+    "node": ">=8.0.0"
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect} from "dva/index";
+import {connect} from "dva";
 import {Layout, Menu, Breadcrumb, Icon} from 'antd';
 import Mapping from '../components/Mapping';
 import './Index.css';

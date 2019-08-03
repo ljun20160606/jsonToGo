@@ -48,6 +48,12 @@ function mysqlToGo0(data, options) {
 
   const {name, columns} = data;
 
+  let schemaOptions = data.options;
+  if (schemaOptions && 'comment' in schemaOptions) {
+    comment('Comment: ' + schemaOptions.comment);
+    line();
+  }
+
   append(`${go.type} ${format(name)} ${go.struct} {`);
   line();
   for (let c of columns) {
@@ -60,7 +66,12 @@ function mysqlToGo0(data, options) {
     const {name, type, options} = column;
     tab();
     if (options.comment) {
-      comment(options.comment);
+      comment("Comment: " + options.comment);
+      line();
+      tab();
+    }
+    if (options.default) {
+      comment("Default: " + options.default);
       line();
       tab();
     }

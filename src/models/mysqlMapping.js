@@ -13,7 +13,14 @@ export default {
       children: [Nested],
     }],
     select: [DB.key],
-    input: '',
+    input: `CREATE TABLE users (
+  id integer(11) NOT NULL AUTO_INCREMENT COMMENT 'id主键',
+  nickname longtext NOT NULL,
+  deleted_at TIMESTAMP NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP,
+  PRIMARY KEY (id)
+) ENGINE MyISAM COMMENT 'All system users';`,
     show: '',
     name: 'db',
     showHandler: mysqlToGo,

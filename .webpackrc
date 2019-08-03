@@ -1,6 +1,0 @@
-{
-   "outputPath": "./chrome-extension/dist",
-   "extraBabelPlugins": [
-     ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }]
-   ]
-}
