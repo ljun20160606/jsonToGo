@@ -34,6 +34,10 @@ const Nested = {
   key: 'nested',
 };
 
+function isNested(select) {
+  return select.includes('nested');
+}
+
 class Options {
   static data = {
     json: {
@@ -57,9 +61,9 @@ class Options {
       list.map(value => value.key) : select);
     return {
       tags,
-      nested: (select.includes('nested'))
+      nested: isNested(select),
     };
   }
 }
 
-export {ALL, JSON, DB, YAML, Options, Config, Nested};
+export { ALL, JSON, DB, YAML, Options, Config, Nested, isNested };

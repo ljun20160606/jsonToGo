@@ -13,13 +13,24 @@ function jsToGo(scope, typename, options) {
   result.go += typeDeclare;
   return result;
 
+  // return prefix+key if exist prefix
   function getTypeName() {
-    let count = typeMap[parentKey];
-    if (count !== undefined) {
-      return format(parentKey + (typeMap[parentKey]++));
+    // return key+number. number plus 1 if key has been record
+    function getTypeNameWithCount() {
+      let count = typeMap[parentKey];
+      if (count !== undefined) {
+        return format(parentKey + (typeMap[parentKey]++));
+      }
+      typeMap[parentKey] = 0;
+      return format(parentKey);
     }
-    typeMap[parentKey] = 0;
-    return format(parentKey);
+
+    let typeNameWithCount = getTypeNameWithCount();
+    let prefix = options.prefix;
+    if (prefix === undefined) {
+      return typeNameWithCount;
+    }
+    return format(prefix + typeNameWithCount);
   }
 
   function jsToGo0(scope, typename, options) {
@@ -114,9 +125,9 @@ function jsToGo(scope, typename, options) {
 
     function parseStruct(object, omitempty, depth = 0) {
       if (depth > 1 && !nested) {
-        let TypeName = getTypeName();
-        append(TypeName);
-        let nest = jsToGo0(object, TypeName, options);
+        let typeName = getTypeName();
+        append(typeName);
+        let nest = jsToGo0(object, typeName, options);
         typeDeclare += `\n\n${nest.go}`;
         return
       }
@@ -127,7 +138,6 @@ function jsToGo(scope, typename, options) {
       for (let i in keys) {
         if (keys.hasOwnProperty(i)) {
           let keyName = keys[i];
-          console.log(keyName)
           indent(tabs);
           append(format(keyName) + ' ');
           parentKey = keyName;

@@ -1,27 +1,18 @@
 import React from 'react';
-import {connect} from "dva";
-import {Layout, Menu, Breadcrumb, Icon} from 'antd';
+import { connect } from "dva";
+import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import Mapping from '../components/Mapping';
 import './Index.css';
 
 const {Header, Content, Footer} = Layout;
 
-class Index extends React.Component {
+class Index extends React.PureComponent {
 
   onInput(name) {
-    return function (input) {
+    return function (data) {
       this.props.dispatch({
         type: `${name}Mapping/input`,
-        payload: {input},
-      });
-    }
-  }
-
-  onSelect(name) {
-    return function (select) {
-      this.props.dispatch({
-        type: `${name}Mapping/select`,
-        payload: {select},
+        payload: {...data},
       });
     }
   }
@@ -31,7 +22,7 @@ class Index extends React.Component {
   }
 
   render() {
-    const {onInput, onSelect, props} = this;
+    const {onInput, props} = this;
     const {match} = props;
     const items = ['json', 'yaml', 'mysql'];
     return (<Layout className="layout" style={{minHeight: '100vh'}}>
@@ -61,7 +52,6 @@ class Index extends React.Component {
               .map(name => <Mapping key={name}
                                     searchPlaceholder={'Select Annotations'}
                                     onInput={onInput(name).bind(this)}
-                                    onSelect={onSelect(name).bind(this)}
                                     dataSource={props[name + 'Mapping']}
                                     leftMode={name}
                                     rightMode={'golang'}
@@ -70,7 +60,8 @@ class Index extends React.Component {
         </div>
       </Content>
       <Footer style={{textAlign: 'center'}}>
-        To Go ©2018 Created by <a href={'https://github.com/ljun20160606/jsonToGo'}><Icon type="github"/> ljun20160606</a>
+        To Go ©2018 Created by <a href={'https://github.com/ljun20160606/jsonToGo'}><Icon
+        type="github"/> ljun20160606</a>
       </Footer>
     </Layout>);
   }

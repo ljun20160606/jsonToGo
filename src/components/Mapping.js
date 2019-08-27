@@ -1,7 +1,8 @@
 import React from 'react';
-import {Row, Col, TreeSelect, Button, notification} from 'antd';
-import {CopyToClipboard} from 'react-copy-to-clipboard';
+import { Row, Col, TreeSelect, Button, notification, Input, Radio } from 'antd';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import AceEditor from 'react-ace';
+import { isNested } from "@/services/js-options";
 
 import 'brace/mode/golang';
 import 'brace/mode/yaml';
@@ -11,11 +12,13 @@ import 'brace/theme/textmate';
 import 'brace/ext/searchbox';
 import 'brace/ext/language_tools'
 
-const Mapping = ({onInput, onSelect, dataSource, searchPlaceholder, leftMode, rightMode}) => {
+const Mapping = ({onInput, dataSource, searchPlaceholder, leftMode, rightMode}) => {
   const tProps = {
     treeData: dataSource.treeData,
     value: dataSource.select,
-    onChange: onSelect,
+    onChange: (select) => {
+      return onInput({select});
+    },
     treeCheckable: true,
     searchPlaceholder: searchPlaceholder || 'Please select',
     style: {
@@ -33,7 +36,28 @@ const Mapping = ({onInput, onSelect, dataSource, searchPlaceholder, leftMode, ri
     <Row>
       <Col span={22} push={1}>
         <Row>
-          <TreeSelect {...tProps} />
+          <Col span={12}>
+            <TreeSelect {...tProps} />
+          </Col>
+          {
+            dataSource.hasName ? [
+              <Col span={4}>
+                <Input placeholder="name" value={dataSource.structName} onChange={(e) => {
+                  onInput({structName: e.target.value});
+                }}/>
+              </Col>,
+              !isNested(dataSource.select) ? <Col span={6} push={1}>
+                <div>
+                  <Radio.Group buttonStyle="solid" value={dataSource.hasPrefix ? 'p' : 'd'} onChange={(e) => {
+                    onInput({hasPrefix: !dataSource.hasPrefix})
+                  }}>
+                    <Radio.Button value={'p'}>PrefixName</Radio.Button>
+                    <Radio.Button value={'d'}>Default</Radio.Button>
+                  </Radio.Group>
+                </div>
+              </Col> : null
+            ] : null
+          }
         </Row>
         <br/>
         <Row gutterd={16}>
@@ -48,7 +72,7 @@ const Mapping = ({onInput, onSelect, dataSource, searchPlaceholder, leftMode, ri
               theme="textmate"
               value={dataSource.input}
               onChange={(value) => {
-                onInput(value);
+                onInput({input: value});
               }}
               name="input"
               editorProps={{$blockScrolling: true}}
@@ -75,9 +99,11 @@ const Mapping = ({onInput, onSelect, dataSource, searchPlaceholder, leftMode, ri
         </Row>
         <br/>
         <Row>
-          <CopyToClipboard text={dataSource.show} onCopy={openNotification}>
-            <Button size={"large"} htmlType={'button'}>Copy</Button>
-          </CopyToClipboard>
+          <Col push={12}>
+            <CopyToClipboard text={dataSource.show} onCopy={openNotification}>
+              <Button size={"large"} htmlType={'button'}>Copy right</Button>
+            </CopyToClipboard>
+          </Col>
         </Row>
       </Col>
     </Row>

@@ -19,8 +19,7 @@ function jsonToGo(json, typename, options) {
   let data;
   try {
     data = JSON.parse(json.replace(/\.0/g, '.1')); // hack that forces floats to stay as floats
-  }
-  catch (e) {
+  } catch (e) {
     return {
       go: '',
       error: e.message
