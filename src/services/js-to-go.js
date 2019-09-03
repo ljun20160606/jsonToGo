@@ -1,8 +1,4 @@
-import {
-  buildin,
-  jsonOption,
-  format,
-} from "./golang";
+import { buildin, format, jsonOption, } from "./golang";
 
 function jsToGo(scope, typename, options) {
   let typeMap = {};
@@ -52,7 +48,7 @@ function jsToGo(scope, typename, options) {
           parseSlice(scope, depth);
           break;
         case buildin.struct:
-          parseStruct(scope, undefined, depth + 1);
+          parseStruct(scope, depth + 1);
           break;
         default:
           append(type)
@@ -78,38 +74,46 @@ function jsToGo(scope, typename, options) {
 
       switch (sliceType) {
         case buildin.struct:
-          let StructFields = {};
+          let structFields = {};
           for (let ele of array) {
             let keys = Object.keys(ele);
             for (let keyName of keys) {
-              if (!StructFields.hasOwnProperty(keyName)) {
-                StructFields[keyName] = {
+              if (!structFields.hasOwnProperty(keyName)) {
+                structFields[keyName] = {
                   count: 0,
                   fieldTypeMap: {}
                 }
               }
               let value = ele[keyName];
-              StructFields[keyName].fieldTypeMap[goType(value)] = value;
-              StructFields[keyName].count++;
+              structFields[keyName].fieldTypeMap[goType(value)] = value;
+              structFields[keyName].count++;
             }
           }
 
-          let structFieldNames = Object.keys(StructFields), struct = {}, omitempty = {};
+          let structFieldNames = Object.keys(structFields), struct = {}, omitempty = {}, nullable = {};
           for (let fieldName of structFieldNames) {
-            let elem = StructFields[fieldName];
+            let elem = structFields[fieldName];
             let fieldTypeMapNames = Object.keys(elem.fieldTypeMap);
             switch (fieldTypeMapNames.length) {
               case 1:
-                let v = elem.fieldTypeMap[fieldTypeMapNames[0]];
-                struct[fieldName] = v;
+                struct[fieldName] = elem.fieldTypeMap[fieldTypeMapNames[0]];
                 break;
+              case 2:
+                let filterNames = fieldTypeMapNames.filter(n => n !== buildin.interface);
+                if (filterNames.length === 1) {
+                  struct[fieldName] = elem.fieldTypeMap[filterNames[0]];
+                  nullable[fieldName] = true;
+                  break;
+                }
+              // eslint-disable-next-line no-fallthrough
               default:
-                struct[fieldName] = null
+                struct[fieldName] = null;
+                break;
             }
             omitempty[fieldName] = elem.count !== sliceLength;
           }
 
-          parseStruct(struct, omitempty, depth + 1);
+          parseStruct(struct, depth + 1, omitempty, nullable);
           break;
         case buildin.slice:
           let flatten = [];
@@ -123,7 +127,7 @@ function jsToGo(scope, typename, options) {
       }
     }
 
-    function parseStruct(object, omitempty, depth = 0) {
+    function parseStruct(object, depth = 0, omitempty = undefined, nullable = undefined) {
       if (depth > 1 && !nested) {
         let typeName = getTypeName();
         append(typeName);
@@ -140,6 +144,9 @@ function jsToGo(scope, typename, options) {
           let keyName = keys[i];
           indent(tabs);
           append(format(keyName) + ' ');
+          if (nullable && nullable[keyName]) {
+            append('*');
+          }
           parentKey = keyName;
           parseScope(object[keyName], depth);
           parentKey = '';
