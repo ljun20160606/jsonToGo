@@ -56,6 +56,24 @@ function mysqlToGo0(data, options) {
 
   append(`${go.type} ${format(name)} ${go.struct} {`);
   line();
+
+  let lengthRecord = {
+    nameLength: 0,
+    typeLength: 0
+  };
+  for (let c of columns) {
+    const {name, type} = c;
+    let n = format(name);
+    let t = parseDataType(type.datatype);
+    if (lengthRecord.nameLength < n.length) {
+      lengthRecord.nameLength = n.length;
+    }
+
+    if (lengthRecord.typeLength < t.length) {
+      lengthRecord.typeLength = t.length;
+    }
+  }
+
   for (let c of columns) {
     parseColumn(c);
     line();
@@ -76,16 +94,24 @@ function mysqlToGo0(data, options) {
       tab();
     }
     let camelName = format(name);
-    append(camelName + ' ');
+    append(camelName, lengthRecord.nameLength);
+    append(' ');
     if (options.nullable) {
       append('*');
     }
-    append(parseDataType(type.datatype) + ' ');
+    append(parseDataType(type.datatype), lengthRecord.typeLength);
+
+    if (!options.nullable) {
+      append(' ');
+    }
     tag(name);
   }
 
-  function append(str) {
+  function append(str, length) {
     goStr += str;
+    if (length) {
+      goStr += ' '.repeat(length - str.length);
+    }
   }
 
   function tab() {
