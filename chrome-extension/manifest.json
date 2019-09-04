@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "json to go",
   "short_name": "jsontogo",
-  "version": "0.21.1",
+  "version": "0.21.2",
   "description": "convert json or yaml to golang struct",
   "author": "ljun20160606",
   "background": {
