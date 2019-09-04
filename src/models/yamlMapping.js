@@ -17,6 +17,7 @@ const innerState = {
   showHandler: yamlToGo,
   hasName: true,
   hasPrefix: true,
+  annotations: [],
   structName: 'Go',
 };
 

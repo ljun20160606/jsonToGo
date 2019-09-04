@@ -13,14 +13,15 @@ const innerState = {
   select: [DB.key],
   input: `CREATE TABLE users (
   id integer(11) NOT NULL AUTO_INCREMENT COMMENT 'id primary',
-  nickname longtext NOT NULL,
-  deleted_at TIMESTAMP NULL,
+  nickname longtext NOT NULL COMMENT '',
+  age integer(8) NOT NULL COMMENT '18',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  updated_at TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB COMMENT 'All system users';`,
   show: '',
   name: 'db',
+  annotations: [],
   showHandler: mysqlToGo,
 };
 

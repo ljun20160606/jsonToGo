@@ -17,6 +17,7 @@ const innerState = {
   showHandler: jsonToGo,
   hasName: true,
   hasPrefix: true,
+  annotations: [],
   structName: 'Go',
 };
 

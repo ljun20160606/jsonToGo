@@ -41,12 +41,12 @@ const Mapping = ({onInput, dataSource, searchPlaceholder, leftMode, rightMode}) 
           </Col>
           {
             dataSource.hasName ? [
-              <Col span={4}>
+              <Col key='structName' span={4}>
                 <Input placeholder="name" value={dataSource.structName} onChange={(e) => {
                   onInput({structName: e.target.value});
                 }}/>
               </Col>,
-              !isNested(dataSource.select) ? <Col span={6} push={1}>
+              !isNested(dataSource.select) ? <Col key='prefix' span={6} push={1}>
                 <div>
                   <Radio.Group buttonStyle="solid" value={dataSource.hasPrefix ? 'p' : 'd'} onChange={(e) => {
                     onInput({hasPrefix: !dataSource.hasPrefix})
@@ -63,6 +63,7 @@ const Mapping = ({onInput, dataSource, searchPlaceholder, leftMode, rightMode}) 
         <Row gutterd={16}>
           <Col span={12}>
             <AceEditor
+              annotations={dataSource.annotations}
               height={'420px'}
               useSoftTabs={true}
               tabSize={2}

@@ -31,11 +31,11 @@ function mysqlToGo(statement, typename, options) {
   try {
     let parser2 = new Parser('mysql');
     parser2.feed(statement);
-    data = parser2.toCompactJson()
+    data = parser2.toCompactJson();
   } catch (e) {
     return {
       go: '',
-      error: e.message
+      error: e
     };
   }
   return {
@@ -57,12 +57,25 @@ function mysqlToGo0(data, options) {
   append(`${go.type} ${format(name)} ${go.struct} {`);
   line();
 
+  // compute length
   let lengthRecord = {
     nameLength: 0,
     typeLength: 0
   };
+  let offset = 0;
+  let lengthRecorder = [];
   for (let c of columns) {
-    const {name, type} = c;
+    const {name, type, options} = c;
+    if (options.comment || options.default) {
+      for (let i = 0; i < offset; i++) {
+        lengthRecorder.push({...lengthRecord});
+      }
+      lengthRecord = {
+        nameLength: 0,
+        typeLength: 0
+      };
+      offset = 0;
+    }
     let n = format(name);
     let t = parseDataType(type.datatype);
     if (lengthRecord.nameLength < n.length) {
@@ -72,15 +85,20 @@ function mysqlToGo0(data, options) {
     if (lengthRecord.typeLength < t.length) {
       lengthRecord.typeLength = t.length;
     }
+    offset++;
+  }
+  for (let i = 0; i < offset; i++) {
+    lengthRecorder.push({...lengthRecord});
   }
 
-  for (let c of columns) {
-    parseColumn(c);
+  // gen
+  for (let i = 0; i < columns.length; i++) {
+    parseColumn(columns[i], i);
     line();
   }
   append('}');
 
-  function parseColumn(column) {
+  function parseColumn(column, index) {
     const {name, type, options} = column;
     tab();
     if (options.comment) {
@@ -94,16 +112,13 @@ function mysqlToGo0(data, options) {
       tab();
     }
     let camelName = format(name);
-    append(camelName, lengthRecord.nameLength);
+    append(camelName, lengthRecorder[index].nameLength);
     append(' ');
     if (options.nullable) {
       append('*');
     }
-    append(parseDataType(type.datatype), lengthRecord.typeLength);
+    append(parseDataType(type.datatype), lengthRecorder[index].typeLength);
 
-    if (!options.nullable) {
-      append(' ');
-    }
     tag(name);
   }
 
