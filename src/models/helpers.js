@@ -7,15 +7,18 @@ function onChange(state) {
     options = {...options, prefix: structName};
   }
   let {go, error} = showHandler(input, structName, options);
-  let annotations = [];
+  let annotations = null;
   if (error) {
     if (error.hasOwnProperty('token')) {
-      annotations.push({
+      annotations = [{
         row: error.token.line - 1,
         column: error.token.col,
         text: error.token.text,
-        type: "error"
-      });
+        type: 'error',
+      }];
+      console.log(error.token);
+    } else {
+      console.log(error);
     }
   }
   return {...state, show: go, annotations: annotations};

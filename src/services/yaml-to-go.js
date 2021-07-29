@@ -13,7 +13,13 @@ function yamlToGo(json, typename, options) {
   } catch (e) {
     return {
       go: '',
-      error: e.message
+      error: {
+        token: {
+          line: e.mark.line,
+          col: e.mark.column,
+          text: e.message,
+        },
+      },
     };
   }
   return jsToGo(data, typename, options);

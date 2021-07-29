@@ -4,13 +4,14 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import AceEditor from 'react-ace';
 import { isNested } from "@/services/js-options";
 
-import 'brace/mode/golang';
-import 'brace/mode/yaml';
-import 'brace/mode/json';
-import 'brace/mode/mysql';
-import 'brace/theme/textmate';
-import 'brace/ext/searchbox';
-import 'brace/ext/language_tools'
+import 'ace-builds/webpack-resolver';
+import 'ace-builds/src-noconflict/mode-golang';
+import 'ace-builds/src-noconflict/mode-yaml';
+import 'ace-builds/src-noconflict/mode-json';
+import 'ace-builds/src-noconflict/mode-mysql';
+import 'ace-builds/src-noconflict/theme-textmate';
+import 'ace-builds/src-noconflict/ext-searchbox';
+import 'ace-builds/src-noconflict/ext-language_tools'
 
 const Mapping = ({onInput, dataSource, searchPlaceholder, leftMode, rightMode}) => {
   const tProps = {
